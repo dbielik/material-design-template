@@ -1,7 +1,4 @@
 pipeline {
-    agent {
-        label 'krut'
-    }
 
     parameters {
         choice choices: ['DEVELOP', 'RELEASE'], description: '', name: 'RELEASE'
@@ -32,7 +29,7 @@ pipeline {
         stage('build') {
             steps {
                 sh label: 'minimize', script: """cd ${WORKSPACE}/www
-                tar --exclude=\'./css\' --exclude=\'./js\' -c -z -f ../site-archive-${params.RELEASE}-${params.RELEASE_VER}-${params.BUILD_NUMBER}.tgz ."""
+                tar --exclude=\'./css\' --exclude=\'./js\' -c -z -f ../site-archive.tgz ."""
             }
         }
         stage('archive') {
@@ -43,6 +40,16 @@ pipeline {
             }
             steps {
                 archiveArtifacts "site-archive.tgz"
+            }
+        }
+        stage('upload') {
+            when {
+                expression {
+                    params.RELEASE == 'RELEASE'
+                }
+            }
+            steps {
+                nexusArtifactUploader artifacts: [[artifactId: 'site-archive', classifier: '', file: 'site-archive.tgz', type: 'tgz']], credentialsId: 'jenkins-demo', groupId: 'jenkins', nexusUrl: 'master.jenkins-practice.tk:9443', nexusVersion: 'nexus3', protocol: 'https', repository: 'vadymRepo', version: '${RELEASE_VERSION}'
             }
         }
     }
