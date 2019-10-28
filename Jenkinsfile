@@ -1,4 +1,8 @@
 pipeline {
+    
+    agent {
+      label 'docker'
+    }
 
     parameters {
         choice choices: ['DEVELOP', 'RELEASE'], description: '', name: 'RELEASE'
