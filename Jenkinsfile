@@ -53,7 +53,9 @@ pipeline {
                 }
             }
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'site-archive', classifier: '', file: 'site-archive.tgz', type: 'tgz']], credentialsId: 'jenkins-demo', groupId: 'jenkins', nexusUrl: 'master.jenkins-practice.tk:9443', nexusVersion: 'nexus3', protocol: 'https', repository: 'vadymRepo', version: '${RELEASE_VERSION}'
+          
+               nexusArtifactUploader artifacts: [[artifactId: 'site-archive', classifier: '', file: 'site-archive.tgz', type: 'tgz']], credentialsId: 'vadym', groupId: 'jenkins', nexusUrl: 'master.jenkins-practice.tk:9443', nexusVersion: 'nexus3', protocol: 'https', repository: 'vadymRepo', version: "${RELEASE_VERSION}"
+            
             }
         }
     }
