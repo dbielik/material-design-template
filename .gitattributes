@@ -26,3 +26,6 @@
 
 # Unix files (need LF)
 *.sh eol=lf
+
+# Custom diff for html
+*.html      diff=html
