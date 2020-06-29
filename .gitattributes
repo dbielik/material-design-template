@@ -29,3 +29,6 @@
 
 # Custom diff for html
 *.html      diff=html
+
+# CHANGELOG merging
+CHANGELOG.md merge=union
