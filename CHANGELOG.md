@@ -1,0 +1,23 @@
+- Add merge1.html; branch merge1; tag v1.0.0
+- Add html diff in .gitattributes and change index.htm to test
+- Add mailto and tag into index.html
+- Add .gitignore and .gitattributes
+- Add script.sh and script.ps1
+- Update contact.php
+- Change in path of fonts directory
+- Merge pull request #7 from joashp/fix_mobile_nav
+- Fixed mobile navbar closing issue. Updated Materialize lib. Added favicon.
+- Merge pull request #5 from joashp/feature_contact
+- Fixed issue of URL for fonts/icons
+- Contact form included php. To send emails
+- Merge pull request #4 from joashp/fix_performance
+- Added jquery and minified js and css to increase site performance
+- Merge pull request #3 from perjo927/master
+- Update index.html
+- Merge pull request #1 from fleeting/patch-1
+- Fixing typo in project name.
+- Hamburger icon fixed for website on smaller devices
+- Added mobile screenshots
+- Update README.md
+- Initial commit
+- :circus_tent: Added .gitattributes & .gitignore files
