@@ -1,3 +1,4 @@
+- Add merge2.html; branch merge2; tag v1.1.0
 - Add merge1.html; branch merge1; tag v1.0.0
 - Add html diff in .gitattributes and change index.htm to test
 - Add mailto and tag into index.html
