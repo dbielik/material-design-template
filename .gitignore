@@ -1,12 +1,22 @@
+# www/css folder only for *.css files
+www/css/*
 !www/*.css
+
+# www/css folder only for *.js files
+www/js/*
 !www/*.js
-!www/min
-!www/*-min.*
+
+# www/min folder - only files with `-min` in names
+www/min/*
+!www/min/*-min.*
+
+# allow png/jpg/jpeg files only in www/img folder
 *.png
 *.jpg
 *.jpeg
 !www/img/*.png
 !www/img/*.jpg
 !www/img/*.jpeg
-#ingore .code locally for current git repo, and there is global ~/.gitignore_global setting for ignore .code for all git repos
+
+# ingore .code locally for current git repo, and there is global ~/.gitignore_global setting for ignore .code for all git repos
 .code
