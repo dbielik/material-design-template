@@ -20,3 +20,9 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# Windows files (eed CRLF)
+*.ps1 eol=crlf
+
+# Unix files (need LF)
+*.sh eol=lf

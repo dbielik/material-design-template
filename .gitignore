@@ -8,5 +8,5 @@
 !www/img/*.png
 !www/img/*.jpg
 !www/img/*.jpeg
+#ingore .code locally for current git repo, and there is global ~/.gitignore_global setting for ignore .code for all git repos
 .code
-
