@@ -20,3 +20,8 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+#lab test
+*.sh lf
+*.ps1 crlf
+*.html diff=html

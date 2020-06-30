@@ -41,3 +41,25 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#added by naturkach
+#www/css allow only .css
+/www/css/*
+!/www/css/*.css
+#
+##www/js only .js
+/www/js/*
+!/www/js/*.js
+#
+##www/min only -min in name
+/www/min/*
+!/www/min/*-min*
+#
+##allow png/jpg/jpeg files only in www/img folder
+/www/img/*
+!/www/img/*.png
+!/www/img/*.jpg
+!/www/img/*.jpeg
+#
+##exclude .code folder for all repo ?
+/.code/**
