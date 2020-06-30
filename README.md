@@ -1,6 +1,6 @@
 <h2>Homework by Evgeniiy Naryshkin (aurcame)<h2>
 <p>This is fork of <a href="https://github.com/dbielik/mdt.git">mdt repository</a><br>
-Tasks:<br>
+Tasks .gitignore practice:<br>
 - create .gitignore file
 <ul>
     <li><a href="#id1">1</a> www/css folder - only for .css files</li>
@@ -23,6 +23,11 @@ results:
 <img src="https://i.imgur.com/uXd14h6.jpg"/>
 <br><a id="id5"></a>5<br>
 <img src="https://i.imgur.com/18miZx9.jpg"/>
+<br><br>
+
+Tasks .gitattribute practice:<br>
+<img src="https://i.imgur.com/4UGHbA2.jpg"/><br>
+Please find results in .gitattribute file
 <br><br>
     
     
