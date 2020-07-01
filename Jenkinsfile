@@ -3,19 +3,29 @@ pipeline{
         label "linux"
     }
     stages{
-        stage("A"){
-            steps{
-                echo "========executing A========"
+        stage('minify'){
+            agent any
+            when{
+                branch 'master'
             }
-            post{
-                always{
-                    echo "========always========"
+            steps {
+                echo 'run this stage - ony if the branch = master branch'
                 }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
+            }
+        stage("Slylelint"){
+            agent any
+            steps{
+                echo "====++++executing Slylelint++++===="
+            }
+            
+            }
+        stage('Archive'){
+            agent any
+            when{
+                branch 'master'
+            }
+            steps {
+                echo 'ARCHIVE run this stage - ony if the branch = master branch'
                 }
             }
         }
