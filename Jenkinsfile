@@ -9,7 +9,7 @@ pipeline {
     parameters {
         // Release type parameter
         choice (
-            name: 'RELEASE',
+            name: 'RELEASE_TYPE',
             choices: ['DEVELOP', 'TEST', 'RELEASE'], 
             description: 'Release type selection (DEVELOP|TEST|RELEASE)')
         
@@ -19,6 +19,13 @@ pipeline {
             defaultValue: '0.1.1', 
             description: 'Release version (number value, format x.x.x)', 
             trim: false)
+    }
+    
+    options {
+        buildDiscarder(logRotator(artifactNumToKeepStr: '3', artifactDaysToKeepStr: '5', daysToKeepStr: '5', numToKeepStr: '3'))
+        timeout(time: 1, unit: 'HOURS')
+        timestamps()
+        // ansiColor('xterm')
     }
 
     // global tools
@@ -48,6 +55,26 @@ pipeline {
                     }
                 }
 
+                // lint .css files
+                stage('TEST') {
+                    when {
+                        allOf {
+                            branch 'master'
+                            expression {
+                                params.RELEASE_TYPE == 'TEST'
+                            }
+
+                        }
+                }
+
+                    steps {
+                        sh label: 'lint CSS', script: """
+                        cd ${WORKSPACE}/www/css
+                        stylelint style.css"""
+                    }
+                }
+
+
                 // clean .css files 
                 stage('CSS') {
                     steps {
@@ -56,13 +83,13 @@ pipeline {
                         cleancss -d style.css > ../min/custom-min.css"""
                     }
                 }
-
+                
                 // tar artifact
                 stage('Tar artifact') {
                     steps {
                         sh label: 'archive', script: """
                         cd ${WORKSPACE}/www
-                        tar --exclude='./css' --exclude='./js' -c -z -f ../site-archive-${params.RELEASE}-${params.RELEASE_VER}-${BUILD_NUMBER}.tgz ."""
+                        tar --exclude='./css' --exclude='./js' -c -z -f ../site-archive-${params.RELEASE_TYPE}-${params.RELEASE_VER}-${BUILD_NUMBER}.tgz ."""
                     }
                 }
             }
@@ -72,7 +99,8 @@ pipeline {
         stage('Archive') {
             when {
                 expression {
-                    params.RELEASE == 'RELEASE'
+
+                    params.RELEASE_TYPE == 'RELEASE'
                 }
             }
             steps {
