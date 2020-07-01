@@ -107,5 +107,27 @@ pipeline {
                 archiveArtifacts '*.tgz'
             }
         }
+
+        // Deployment
+        stage('Deploymnet') {
+            when {
+                expression {
+
+                    params.RELEASE_TYPE == 'RELEASE'
+                }
+            }
+            steps {
+                sh label: 'set_credentials', script: """
+                    echo "[default]" > ~/.aws/credentials 
+                    echo "aws_access_key_id = ${credentials('AWS_ACCESS_KEY_ID')}" >> ~/.aws/credentials 
+                    echo "aws_secret_access_key = ${credentials('AWS_SECRET_ACCESS_KEY')}" >> ~/.aws/credentials 
+                    printf "[default]
+                    region = eu-central-1
+                    output = json" > ~/.aws/config
+
+                """
+            }
+        }
+
     }
 }
