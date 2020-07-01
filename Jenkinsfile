@@ -27,16 +27,16 @@ pipeline {
                         cleancss -d style.css > ../min/custom-min.css"""
                     }
                 }
-                stage('Prepare artifact') {
-                    when {
-                      branch 'master'
-                    }
-                    steps {
-                        sh label: 'archive', script: """
-                        cd ${WORKSPACE}/www
-                        tar --exclude='./css' --exclude='./js' -c -z -f ../site-archive-${params.RELEASE}-${params.RELEASE_VER}-${BUILD_NUMBER}.tgz ."""
-                    }
-                }
+            }
+        }
+        stage('Prepare artifact') {
+            when {
+              branch 'master'
+            }
+            steps {
+                sh label: 'archive', script: """
+                cd ${WORKSPACE}/www
+                tar --exclude='./css' --exclude='./js' -c -z -f ../site-archive-${params.RELEASE}-${params.RELEASE_VER}-${BUILD_NUMBER}.tgz ."""
             }
         }
         stage('Archive') {
