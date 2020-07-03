@@ -4,6 +4,11 @@ pipeline {
     agent {
         label 'slave-node'
     }
+    
+    environment {
+        ENV_AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID_SECRET')
+        ENV_AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY_SECRET')
+    }
 
     // pipeline parameters
     parameters {
@@ -109,22 +114,32 @@ pipeline {
         }
 
         // Deployment
-        stage('Deploymnet') {
+        stage('CreateVM') {
             when {
                 expression {
-
+                    params.RELEASE_TYPE == 'RELEASE'
                     params.RELEASE_TYPE == 'RELEASE'
                 }
             }
             steps {
                 sh label: 'set_credentials', script: """
-                    echo "[default]" > ~/.aws/credentials 
-                    echo "aws_access_key_id = ${credentials('AWS_ACCESS_KEY_ID')}" >> ~/.aws/credentials 
-                    echo "aws_secret_access_key = ${credentials('AWS_SECRET_ACCESS_KEY')}" >> ~/.aws/credentials 
-                    printf "[default]
-                    region = eu-central-1
-                    output = json" > ~/.aws/config
+                    export AWS_ACCESS_KEY_ID=${ENV_AWS_ACCESS_KEY_ID}
+                    export AWS_SECRET_ACCESS_KEY=${ENV_AWS_SECRET_ACCESS_KEY}
+                    export AWS_DEFAULT_REGION=eu-central-1
+                """
 
+                //create ec aws cli
+                sh label: 'startup_VM', script: """
+                    cd ${WORKSPACE}
+                    aws ec2 run-instances \
+                    --region eu-central-1 \
+                    --image-id ami-0a02ee601d742e89f \
+                    --count 1 \
+                    --instance-type t2.micro \
+                    --key-name awskey-frankfurt\
+                    --security-group-ids sg-01e9711790fdb054c sg-0abfebc8260645bb6 \
+                    --subnet-id subnet-0fcbecf97e53d86c2 \
+                    --user-data file://user-data.txt
                 """
             }
         }
