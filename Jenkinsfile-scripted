@@ -1,0 +1,54 @@
+// hometask
+// Scripted pipeline example
+// by Evgeniy Naryshkin (aurcame)
+//
+
+node('master') {
+    
+    properties(
+            [buildDiscarder(
+                logRotator(
+                    artifactDaysToKeepStr: '7', 
+                    artifactNumToKeepStr: '3', 
+                    daysToKeepStr: '7', 
+                    numToKeepStr: '5')), 
+            parameters([
+                choice(
+                    choices: ['DEVELOP', 'TEST', 'RELEASE'], 
+                    description: 'Release type selection (DEVELOP|TEST|RELEASE)', 
+                    name: 'RELEASE_TYPE'), 
+                string(
+                    defaultValue: '0.1.1', 
+                    description: 'Release version (number value, format x.x.x)', 
+                    name: 'RELEASE_VER', trim: false)
+            ])
+            ])
+
+    // Stage Checkout. Download source code from git repository
+    stage('Checkout') {
+        git url: 'https://github.com/dbielik/mdt.git'
+    }
+    
+    // Stage Build. Apply clean css files and compress js files
+    stage('Build') {
+        // Run the nodejs build
+        nodejs('myNodeJS') {
+            sh """cd ${WORKSPACE}/www/css
+                cleancss -d style.css > ../min/custom-min.css
+                
+                cd ${WORKSPACE}/www/js
+                uglifyjs --timings init.js -o ../min/custom-min.js
+                
+                cd ${WORKSPACE}/www
+                tar --exclude='./css' --exclude='./js' -c -z -f ../site-archive-${params.RELEASE}-${params.RELEASE_VER}-${BUILD_NUMBER}.tgz ."""
+        }
+    }
+    
+    // Stage Archiving website
+    stage('Archive') {
+        if (params.RELEASE == 'RELEASE') {
+            archive '*.tgz'
+        }
+    }
+}
+

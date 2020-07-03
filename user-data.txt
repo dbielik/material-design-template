@@ -1,0 +1,33 @@
+#!/bin/bash
+yum -y update
+
+# install apache
+yum -y install httpd
+
+# get some metadata for current host
+PublicIP=`curl 169.254.169.254/latest/meta-data/public-ipv4`
+PrivateIP=`curl 169.254.169.254/latest/meta-data/local-ipv4`
+PubHostName=`curl 169.254.169.254/latest/meta-data/public-hostname`
+AvailabilityZone=`curl 169.254.169.254/latest/meta-data/placement/availability-zone`
+
+# setup unassigned datas
+if [ -z "$PublicIP" ];
+then
+  PublicIP="not assigned";
+fi; 
+if [ -z "$PubHostName" ];
+then
+  PubHostName="not assigned";
+fi;
+
+export Private_IP=$PrivateIP
+export Public_IP=$PublicIP
+export PubHost_Name=$PubHostName
+export Availability_Zone=$AvailabilityZone
+
+# make index.html page
+echo "<html><body bgcolor=black><center><h1><p><font color=#DDDDDD><br>Web server public IP: <font color=#29872C>$Public_IP<br><font color=#DDDDDD>Web server private IP: <font color=#3558B4>$Private_IP<br><font color=#DDDDDD>Web server host name: <font color=#3558B4>$PubHost_Name<br><font color=#DDDDDD>Web server Availability Zone: <font color=#163D7E>$Availability_Zone<br></h1></center></body></html>" > /var/www/html/index.html
+
+# autostart apache web server
+sudo service httpd start
+chkconfig httpd on

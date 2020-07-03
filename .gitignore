@@ -1,43 +1,27 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# www/css folder only for *.css files
+#
+www/css/*
+!www/css/*.css
 
-# Folder config file
-Desktop.ini
+# www/css folder only for *.js files
+#
+www/js/*
+!www/js/*.js
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# www/min folder - only files with `-min` in names
+#
+www/min/*
+!www/min/*-min.*
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# allow png/jpg/jpeg files only in www/img folder
+#
+*.png
+*.jpg
+*.jpeg
+!www/img/*.png
+!www/img/*.jpg
+!www/img/*.jpeg
 
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# ingore .code locally for current git repo,just for example, and there is global ~/.gitignore_global setting for ignore .code for all git repos
+#
+.code
