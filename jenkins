@@ -1,17 +1,29 @@
-pipeline { agent { label 'apache' } environment { APACHE_DST = '/var/www/html/'
+pipeline { 
+    agent { label 'apache' } 
+    environment { 
+        APACHE_DST = '/var/www/html/'
     }
   
-   stages { stage('PreBuild') { steps { sh "rm -vr ${WORKSPACE}/*"
-         }
-      }
-      stage('Build') { steps { git([url:"https://github.com/ludnas/mdt-fork"]) sh "${WORKSPACE}/min.sh"
-         }
-      }
-      stage('PreDeploy'){ steps{ sh """ cd ${WORKSPACE}/www/css/ find . -type f ! -name '*.min.css' -delete """
-              }
-      }
-      stage('Deploy'){ steps{ sh """ sudo cp -avr ${WORKSPACE}/www ${APACHE_DST} """
-          }
-      }
-   }
+   stages { 
+        stage('PreBuild') { 
+            steps { 
+                sh "rm -vr ${WORKSPACE}/*"
+            }
+        }
+        stage('Build') { 
+            steps { 
+                git([url:"https://github.com/ludnas/mdt-fork"]) sh "${WORKSPACE}/min.sh"
+            }
+        }
+        stage('PreDeploy'){ 
+            steps{ 
+                sh """ cd ${WORKSPACE}/www/css/ find . -type f ! -name '*.min.css' -delete """
+            }
+        }
+        stage('Deploy'){ 
+            steps{ 
+                sh """ sudo cp -avr ${WORKSPACE}/www ${APACHE_DST} """
+            }
+        }
+    }
 }
